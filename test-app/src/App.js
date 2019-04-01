@@ -1,22 +1,14 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import SignIn from './components/login/SignIn';
+import {BrowserRouter, Route} from 'react-router-dom';
+import MainView from "./components/Main View/MainView";
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a href="www.google.com">
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    render(){
+        return (
+            <SignIn/>
+        );
+    }
 }
 
 export default App;
