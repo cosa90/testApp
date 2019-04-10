@@ -24,8 +24,7 @@ class MainView extends Component {
         }
     }
     
-    tester(){
-        debugger
+    tester(ev){
         var src = ev.dataTransfer.getData("id");
         //ev.target.appendChild(document.getElementById(src));
         //const id = ev.target.id;
@@ -49,7 +48,6 @@ class MainView extends Component {
                     selected: false
                 })
             };
-            debugger
             this.setState(obj);
         }
     }
