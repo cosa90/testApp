@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import './MaterialLogin.css'
 import MainView from "../Main View/MainView";
+import SideNav from "../SideNav/SideNav";
 
 class MaterialLogin extends React.Component {
     
@@ -45,7 +46,8 @@ class MaterialLogin extends React.Component {
     render(){
         if (this.state.auth) {
             return (
-                <MainView userName={this.state.userName}/>
+                //<MainView userName={this.state.userName}/>
+                <SideNav/>
             );
         }
         else {
