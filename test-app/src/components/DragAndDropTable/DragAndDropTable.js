@@ -3,41 +3,47 @@ import React from "react";
 import "./DragAndDropTable.css";
 
 class DragAndDropTable extends Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props);
-        
-        this.state = {
-            items: this.props.items,
-            counter: 0
-        };
-        
+
+        // this.state = {
+        //     items: this.props.items,
+        //     counter: 0
+        // };
+
         this.dragDrop = this.dragDrop.bind(this);
         this.dragStart = this.dragStart.bind(this);
         this.dragOver = this.dragOver.bind(this);
         this.createRows = this.createRows.bind(this);
     }
-    
-    dragDrop(ev){
-        this.props.tester(ev);
-        
+
+    dragDrop(ev) {
+        debugger
+        if (this.props.pos !== JSON.parse(ev.dataTransfer.getData("obj")).loc) {
+            this.props.tester(ev);
+        }
+
         //ev.stopPropagation();
     }
-    
-    dragStart(ev){
-        debugger
+
+    dragStart(ev) {
         ev.dataTransfer.effectAllowed = 'move';
-        ev.dataTransfer.setData("id", ev.target.id);
+        ev.dataTransfer.setData("obj", JSON.stringify({
+            id: ev.target.id,
+            loc: this.props.pos
+        }));
     }
-    
-    dragOver(ev){
-        ev.preventDefault()
+
+    dragOver(ev) {
+        ev.preventDefault();
     }
-    
-    createRows(){
-        const items = this.state.items;
-        const array = items.map((item) => {
-            return (<tr key={item.id} id={item.id} draggable={true} onDragStart={this.dragStart}>
+
+    createRows() {
+        const items = this.props.items;
+        const array = items.map((item, index) => {
+            debugger
+            return (<tr key={index} id={item.id} draggable={true} onDragStart={this.dragStart}>
                 <td>{item.company}</td>
                 <td>{item.contact}</td>
                 <td>{item.country}</td>
@@ -45,8 +51,8 @@ class DragAndDropTable extends Component {
         });
         return array;
     }
-    
-    render(){
+
+    render() {
         return (
             <div>
                 <table onDrop={this.dragDrop} onDragOver={this.dragOver}>

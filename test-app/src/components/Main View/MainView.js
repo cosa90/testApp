@@ -3,10 +3,10 @@ import React from "react";
 import Dnd from "../DragAndDropTable/DragAndDropTable";
 
 class MainView extends Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props);
-        
+
         this.state = {
             items: [{
                 id: 1,
@@ -21,49 +21,71 @@ class MainView extends Component {
                 country: "Mexico",
                 selected: false
             }],
-        }
+        };
+
+        this.tester = this.tester.bind(this);
+        this.selectedUsers = this.selectedUsers.bind(this);
+        this.unselectedUsers = this.unselectedUsers.bind(this);
     }
-    
-    tester(){
+
+    tester(ev) {
         debugger
-        var src = ev.dataTransfer.getData("id");
+        const src = JSON.parse(ev.dataTransfer.getData("obj")).id;
         //ev.target.appendChild(document.getElementById(src));
         //const id = ev.target.id;
-    
-        const exists = this.state.items.every((item) => {
-            debugger
+
+        const nextArray = [...this.state.items];
+        const exists = nextArray.map((item) => {
             if (item.id.toString() === src) {
-                return false;
+                item.selected = !item.selected;
             }
-            return true
+            return item;
         });
-    
-        if (exists) {
+
+        if (true) {
             let obj = {
                 ...this.state,
-                items: this.state.items.concat({
-                    id: 3,
-                    company: "C",
-                    contact: "F",
-                    country: "M",
-                    selected: false
-                })
+                items: exists
             };
             debugger
             this.setState(obj);
         }
     }
-    
-    render(){
+
+    selectedUsers() {
+        const selected = this.state.items.filter((item) => {
+            if (item.selected) {
+                return item;
+            }
+        });
+
+        return selected;
+    }
+
+    unselectedUsers() {
+        const selected = this.state.items.filter((item) => {
+            if (!item.selected) {
+                return item;
+            }
+        });
+        debugger
+        return selected;
+    }
+
+    render() {
         return (
-            <div>
+            <div style={{width:"100%", margin:"0 auto"}} >
                 <h1>HELLO + {this.props.userName}</h1>
-                
-                <Dnd tester={this.tester} items={[this.state.items[0]]}/>
-                
-                <Dnd tester={this.tester} items={[this.state.items[1]]}/>
+                <div style={{display:"inline", width:"100%"}}>
+                    <div style={{width:"45%", float:'left'}}>
+                        <Dnd tester={this.tester} items={this.selectedUsers()} pos="left"/>
+                    </div>
+                    <div style={{width:"50%", marginLeft:"50%"}}>
+                        <Dnd tester={this.tester} items={this.unselectedUsers()} pos="right"/>
+                    </div>
+                </div>
+
             </div>
-        
         );
     }
 }
